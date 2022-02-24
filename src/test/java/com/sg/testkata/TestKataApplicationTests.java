@@ -1,5 +1,6 @@
 package com.sg.testkata;
 
+import enums.OperationType;
 import exception.AccountOperationsException;
 import model.Account;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,20 @@ class TestKataApplicationTests {
         //assert
         assertThrows(AccountOperationsException.class, () -> transactionService.findAccount(accountId));
     }
+    @Test
+    public void should_deposit_money() {
+        //arrange
+        Long accountId = 1L;
+        Account account = transactionService.findAccount(accountId);
+        Double amount = 200D;
+        Double expectedBalance = 1200D;
 
+        //act
+        transactionService.deposit(OperationType.DEPOSIT, amount, accountId);
+
+        //assert
+        assertThat(account.getBalance()).isEqualTo(expectedBalance);
+    }
 
 }
 

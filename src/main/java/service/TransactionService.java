@@ -1,5 +1,6 @@
 package service;
 
+import enums.OperationType;
 import exception.AccountOperationsException;
 import model.Account;
 import model.Client;
@@ -13,7 +14,7 @@ import static exception.AccountOperationsException.ACCOUNT_NOT_FOUND;
 @Service
 public class TransactionService {
 
-    static final Double MIN_DEPOSIT = 0.01;
+    static final Double MIN_DEPOSIT = 0D;
     public static List<Account> accounts = Arrays.asList(new Account(1L, 1000D),
                                                          new Account(2L, 2000D),
                                                          new Account(3L, 3000D));
@@ -36,6 +37,24 @@ public class TransactionService {
                 .orElseThrow(() -> new AccountOperationsException(ACCOUNT_NOT_FOUND));
     }
 
+    /**
+     * méthode permettant le depôt dans son compte bancaire
+     * @param operationType : type de l'opération (dépôt)
+     * @param amount : somme à déposer
+     * @param acountId : id du compte bancaire
+     * @return solde du compte mis à jour
+     */
+    public Account deposit(OperationType operationType, Double amount, Long acountId) {
+        Account account = findAccount(acountId);
+        if(operationType == OperationType.DEPOSIT )
+        {
+            if (amount > MIN_DEPOSIT) {
+                    account.setBalance(account.getBalance() + amount);
+                    return account;
+                }
+        }
+        return null;
+    }
 
 
 
