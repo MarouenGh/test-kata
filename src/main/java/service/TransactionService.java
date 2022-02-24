@@ -47,17 +47,34 @@ public class TransactionService {
      */
     public Account deposit(OperationType operationType, Double amount, Long acountId) {
         Account account = findAccount(acountId);
-        if(operationType == OperationType.DEPOSIT )
-        {
+        if (operationType == OperationType.DEPOSIT) {
             if (amount > MIN_DEPOSIT) {
-                    account.setBalance(account.getBalance() + amount);
-                    return account;
-                }
-            else {
+                account.setBalance(account.getBalance() + amount);
+                return account;
+            } else {
                 throw new AccountOperationsException(DEPOSIT_LESS_THAN_MINIMUM_DEPOSIT);
             }
         }
-        return null;
+        return account;
+    }
+
+    /**
+     * méthode permettant le retrait dans son compte bancaire
+     * @param operationType type de l'opération (retrait)
+     * @param amount : somme à déposer
+     * @param acountId : id du compte bancaire
+     * @return solde du compte mis à jour
+     */
+    public Account withdraw(OperationType operationType, Double amount, Long acountId) {
+        Account account = findAccount(acountId);
+        if(operationType == OperationType.WITHDRAW )
+        {
+            if (account.getBalance() > amount) {
+                account.setBalance(account.getBalance() - amount);
+                return account;
+            }
+        }
+        return account;
     }
 
 
