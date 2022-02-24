@@ -1,11 +1,14 @@
 package service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import exception.AccountOperationsException;
 import model.Account;
 import model.Client;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static exception.AccountOperationsException.ACCOUNT_NOT_FOUND;
 
 @Service
 public class TransactionService {
@@ -26,10 +29,11 @@ public class TransactionService {
      * @param accountId : id du compte
      * @return compte client
      */
-    public Optional<Account> findAccount(Long accountId) {
+    public Account findAccount(Long accountId) {
         return accounts.stream()
                 .filter(account -> account.getId().equals(accountId))
-                .findAny();
+                .findAny()
+                .orElseThrow(() -> new AccountOperationsException(ACCOUNT_NOT_FOUND));
     }
 
 
