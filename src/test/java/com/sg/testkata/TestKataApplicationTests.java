@@ -16,6 +16,7 @@ import static org.junit.Assert.assertThrows;
 class TestKataApplicationTests {
 
     private TransactionService transactionService = new TransactionService();
+
     @Test
     public void should_find_account() {
         //arrange
@@ -46,7 +47,7 @@ class TestKataApplicationTests {
         Double expectedBalance = 1200D;
 
         //act
-        transactionService.deposit(OperationType.DEPOSIT, amount, accountId);
+        transactionService.operation(OperationType.DEPOSIT, amount, accountId);
 
         //assert
         assertThat(account.getBalance()).isEqualTo(expectedBalance);
@@ -59,19 +60,19 @@ class TestKataApplicationTests {
         Double minimumDeposit = 0D;
 
         //assert
-        Exception exception = assertThrows(AccountOperationsException.class, () -> transactionService.deposit(OperationType.DEPOSIT, minimumDeposit, accountId));
+        Exception exception = assertThrows(AccountOperationsException.class, () -> transactionService.operation(OperationType.DEPOSIT, minimumDeposit, accountId));
     }
 
     @Test
     public void should_withdraw_money() {
         //arrange
-        Long accountId = 1L;
+        Long accountId = 4L;
         Account account = transactionService.findAccount(accountId);
         Double amount = 500D;
-        Double expectedBalance = 500D;
+        Double expectedBalance = 3500D;
 
         //act
-        transactionService.withdraw(OperationType.WITHDRAW, amount, accountId);
+        transactionService.operation(OperationType.WITHDRAW, amount, accountId);
 
         //assert
         assertThat(account.getBalance()).isEqualTo(expectedBalance);
@@ -83,7 +84,7 @@ class TestKataApplicationTests {
         Double amount = 3000D;
 
         //assert
-        Exception exception = assertThrows(AccountOperationsException.class, () -> transactionService.withdraw(OperationType.WITHDRAW, amount, accountId));
+        Exception exception = assertThrows(AccountOperationsException.class, () -> transactionService.operation(OperationType.WITHDRAW, amount, accountId));
     }
 }
 
