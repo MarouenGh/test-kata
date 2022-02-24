@@ -51,6 +51,14 @@ class TestKataApplicationTests {
         //assert
         assertThat(account.getBalance()).isEqualTo(expectedBalance);
     }
+    @Test
+    public void should_throw_exception_when_deposit_amount_is_less_than_minimum() {
+        //arrange
+        Long accountId = 1L;
+        Double minimumDeposit = 0D;
 
+        //assert
+        Exception exception = assertThrows(AccountOperationsException.class, () -> transactionService.deposit(OperationType.DEPOSIT, minimumDeposit, accountId));
+    }
 }
 
