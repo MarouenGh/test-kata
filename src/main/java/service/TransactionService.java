@@ -12,6 +12,8 @@ import java.util.List;
 import static exception.AccountOperationsException.DEPOSIT_LESS_THAN_MINIMUM_DEPOSIT;
 import static exception.AccountOperationsException.ACCOUNT_NOT_FOUND;
 
+import static exception.AccountOperationsException.INSUFFICIENT_CREDIT;
+
 @Service
 public class TransactionService {
 
@@ -73,7 +75,11 @@ public class TransactionService {
                 account.setBalance(account.getBalance() - amount);
                 return account;
             }
+            else {
+                throw new AccountOperationsException(INSUFFICIENT_CREDIT);
+            }
         }
+
         return account;
     }
 

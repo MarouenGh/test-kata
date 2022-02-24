@@ -76,5 +76,14 @@ class TestKataApplicationTests {
         //assert
         assertThat(account.getBalance()).isEqualTo(expectedBalance);
     }
+    @Test
+    public void should_throw_exception_when_withdraw_amount_is_bigger_than_balance() {
+        //arrange
+        Long accountId = 2L;
+        Double amount = 3000D;
+
+        //assert
+        Exception exception = assertThrows(AccountOperationsException.class, () -> transactionService.withdraw(OperationType.WITHDRAW, amount, accountId));
+    }
 }
 
