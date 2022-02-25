@@ -1,9 +1,8 @@
 package model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import java.util.Objects;
 
 @Entity
 public class Client {
@@ -13,16 +12,33 @@ public class Client {
 
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY)
 
-    private Account account;
-
-        public Client(Long id, String name, Account account) {
+        public Client(Long id, String name) {
             super();
             this.id = id;
             this.name = name;
-            this.account = account;
         }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(id, client.id) && Objects.equals(name, client.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 
     public Client() {}
 
@@ -40,13 +56,5 @@ public class Client {
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public Account getAccount() {
-            return account;
-        }
-
-        public void setAccount(Account account) {
-            this.account = account;
         }
 }
